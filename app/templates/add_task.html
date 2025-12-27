@@ -1,9 +1,161 @@
-{% extends "base.html" %}
-{% block content %}
-<form method="post">
-    <input name="title" placeholder="Title" required>
-    <input name="description" placeholder="Description">
-    <input name="due_date" placeholder="Due Date">
-    <button type="submit">Add</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ action }} Task</title>
+    <style>
+        /* Reset styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f4f8;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+        }
+
+        .container {
+            width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .container {
+            background-color: #2c2c2c;
+            box-shadow: 0px 0px 15px rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode input,
+        .dark-mode textarea,
+        .dark-mode select {
+            background-color: #3a3a3a;
+            color: #f0f0f0;
+            border: 1px solid #555;
+        }
+
+        textarea { resize: vertical; }
+
+        .buttons-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            background-color: #4CAF50;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover { background-color: #45a049; }
+
+        a.back-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        a.back-button:hover { background-color: #d32f2f; }
+
+        /* Dark mode toggle button */
+        .toggle-dark {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dark-mode .toggle-dark {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-dark">Toggle Dark Mode</button>
+
+    <div class="container">
+        <h1>{{ action }} Task</h1>
+        <form method="post">
+            <input type="text" name="title" placeholder="Title" value="{{ task[1] if task else '' }}" required>
+            <textarea name="description" placeholder="Description" rows="4">{{ task[2] if task else '' }}</textarea>
+            <input type="date" name="due_date" value="{{ task[3] if task else '' }}" min="{{ today }}" required>
+            <select name="status">
+                <option value="pending" {% if task and task[4]=='pending' %}selected{% endif %}>Pending</option>
+                <option value="completed" {% if task and task[4]=='completed' %}selected{% endif %}>Completed</option>
+            </select>
+            <div class="buttons-row">
+                <button type="submit">{{ action }} Task</button>
+                <a href="/" class="back-button">Back</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-dark');
+        const body = document.body;
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Save preference in localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>

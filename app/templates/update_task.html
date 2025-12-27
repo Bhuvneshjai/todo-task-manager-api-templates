@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Update Task</h2>
+<form method="post">
+    <input name="title" value="{{ task[1] }}" required>
+    <input name="description" value="{{ task[2] }}">
+    <input name="due_date" value="{{ task[3] }}">
+    <select name="status">
+        <option value="pending" {% if task[4] == "pending" %}selected{% endif %}>Pending</option>
+        <option value="done" {% if task[4] == "done" %}selected{% endif %}>Done</option>
+    </select>
+    <button type="submit">Update Task</button>
+</form>
+<a href="/" class="button" style="background-color:gray;">Back</a>
+{% endblock %}

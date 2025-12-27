@@ -1,11 +1,151 @@
-{% extends "base.html" %}
-{% block content %}
-<a href="/add">Add Task</a>
-<ul>
-{% for task in tasks %}
-    <li>
-        <b>{{ task[1] }}</b> - {{ task[4] }}
-    </li>
-{% endfor %}
-</ul>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .container {
+            background-color: #2c2c2c;
+            box-shadow: 0px 0px 15px rgba(255,255,255,0.1);
+        }
+
+        h1 { text-align: center; margin-bottom: 25px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .dark-mode th {
+            background-color: #388e3c;
+        }
+
+        a.button {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 5px;
+        }
+
+        a.button:hover {
+            background-color: #45a049;
+        }
+
+        .dark-mode a.button {
+            background-color: #388e3c;
+        }
+
+        .toggle-dark {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dark-mode .toggle-dark {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-dark">Toggle Dark Mode</button>
+
+    <div class="container">
+        <h1>To-Do List</h1>
+        <a href="/add" class="button">Add Task</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task[0] }}</td>
+                    <td>{{ task[1] }}</td>
+                    <td>{{ task[2] }}</td>
+                    <td>{{ task[3] }}</td>
+                    <td>{{ task[4] }}</td>
+                    <td>
+                        <a href="/update/{{ task[0] }}" class="button">Update</a>
+                        <form action="/delete/{{ task[0] }}" method="post" style="display:inline;">
+                            <button type="submit" class="button" style="background-color:#f44336;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-dark');
+        const body = document.body;
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Save preference in localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>
