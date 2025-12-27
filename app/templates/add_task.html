@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+    <input name="title" placeholder="Title" required>
+    <input name="description" placeholder="Description">
+    <input name="due_date" placeholder="Due Date">
+    <button type="submit">Add</button>
+</form>
+{% endblock %}
