@@ -8,7 +8,7 @@
   <body>
     <button class="toggle-dark">Toggle Dark Mode</button>
     <div class="container">
-      <h1>To-Do List</h1>
+      <h1>To-Do List Application</h1>
       <a href="/add" class="button">Add Task</a>
       <table>
         <thead>
@@ -23,14 +23,14 @@
         <tbody>
           {% for task in tasks %}
           <tr>
-            <td>{{ task[1] }}</td>
-            <td>{{ task[2] }}</td>
-            <td>{{ task[3] }}</td>
-            <td>{{ task[4] }}</td>
+            <td>{{ task.title }}</td>  
+            <td>{{ task.description }}</td>  
+            <td>{{ task.due_date }}</td>  
+            <td>{{ task.status }}</td>  
             <td>
               <!-- Update button -->
               <form
-                action="/update/{{ task[0] }}"
+                action="/update/{{ task.id }}"
                 method="get"
                 style="display: inline"
               >
@@ -41,7 +41,7 @@
 
               <!-- Delete button -->
               <form
-                action="/delete/{{ task[0] }}"
+                action="/delete/{{ task.id }}"
                 method="post"
                 style="display: inline"
               >

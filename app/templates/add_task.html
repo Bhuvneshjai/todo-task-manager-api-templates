@@ -123,12 +123,12 @@
     <div class="container">
         <h1>{{ action }} Task</h1>
         <form method="post">
-            <input type="text" name="title" placeholder="Title" value="{{ task[1] if task else '' }}" required>
-            <textarea name="description" placeholder="Description" rows="4">{{ task[2] if task else '' }}</textarea>
-            <input type="date" name="due_date" value="{{ task[3] if task else '' }}" min="{{ today }}" required>
+            <input type="text" name="title" placeholder="Title" value="{{ task.title if task else '' }}" required>  <!-- Updated from task[1] -->
+            <textarea name="description" placeholder="Description" rows="4">{{ task.description if task else '' }}</textarea>  <!-- Updated from task[2] -->
+            <input type="date" name="due_date" value="{{ task.due_date if task else '' }}" min="{{ today }}" required>  <!-- Updated from task[3] -->
             <select name="status">
-                <option value="pending" {% if task and task[4]=='pending' %}selected{% endif %}>Pending</option>
-                <option value="completed" {% if task and task[4]=='completed' %}selected{% endif %}>Completed</option>
+                <option value="pending" {% if task and task.status=='pending' %}selected{% endif %}>Pending</option>  <!-- Updated from task[4] -->
+                <option value="completed" {% if task and task.status=='completed' %}selected{% endif %}>Completed</option>
             </select>
             <div class="buttons-row">
                 <button type="submit">{{ action }} Task</button>
